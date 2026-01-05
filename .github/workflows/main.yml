@@ -33,8 +33,14 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
+            # Tag "latest" uniquement si on est sur la branche 'master' ou 'main'
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') || github.ref == format('refs/heads/{0}', 'main') }}
+            # Tag avec le nom de la branche (ex: main, dev, feature-x)
+            type=ref,event=branch
+            # Tag avec le nom du tag Git (ex: v1.0.0)
             type=ref,event=tag
+            # Tag pour les Pull Requests (ex: pr-12)
+            type=ref,event=pr
 
       - name: Construction et Push de l'image
         uses: docker/build-push-action@v4
