@@ -81,7 +81,8 @@ class ParamSettingForm(forms.Form):
             Field('include_cjk'),
             Field('category_indexers', id='check_id'),
             Div(
-                Field('indexer_movietv'),
+                Field('indexer_movie'),
+                Field('indexer_tv'),
                 Field('indexer_music'),
                 Field('indexer_ebook'),
                 Field('indexer_audio'),
