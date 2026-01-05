@@ -80,14 +80,44 @@ $(document).ready(function () {
         // $(row).addClass(data.read ? 'read' : 'unread');
     })
     var count = 0;
+    
+    function updateInterfaceState(isLive) {
+        var badge = $('#status-indicator span');
+        var startBtn = $('#startBtn');
+        var runningBtn = $('#runningBtn');
+        var logContainer = $('#log-container');
+
+        if (isLive) {
+            badge.removeClass('badge-secondary').addClass('badge-success').text('Running');
+            startBtn.hide();
+            runningBtn.show();
+            logContainer.slideDown();
+        } else {
+            badge.removeClass('badge-success').addClass('badge-secondary').text('Idle');
+            startBtn.show();
+            runningBtn.hide();
+            // Optional: Hide log container when idle, or keep it to show results
+            // logContainer.slideUp(); 
+        }
+    }
+
     (function worker() {
         $.ajax({
             url: '/crseed/processlog',
             success: function (data) {
                 // $('#list_contents').html(data);
+                var isLive = data[0].fields.live;
+                updateInterfaceState(isLive);
+
                 $('#clientCount').html( data[0].fields.total_in_client + ' / ' + data[0].fields.progress)
                 $('#sessionCount').html( data[0].fields.flow_limit + ' / ' + data[0].fields.query_count)
                 $('#downloadCount').html( data[0].fields.download_count)
+
+                var total = parseInt(data[0].fields.total_in_client) || 0;
+                var current = parseInt(data[0].fields.progress) || 0;
+                var pct = 0;
+                if(total > 0) pct = Math.round(current * 100 / total);
+                $('#progressBar').css('width', pct+'%').text(pct+'%');
 
                 if ($('#logMessage').length > 0) {
                     var logbox = $('#logMessage');
