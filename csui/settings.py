@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'background_task',
     'crispy_forms',
     'ajax_datatable',
-    'widgets_tweaks',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
