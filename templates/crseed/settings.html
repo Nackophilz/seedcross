@@ -30,7 +30,79 @@
                             </div>
                         {% endif %}
 
-                        {% include "_form.html" %}
+                        <!-- Navigation des onglets -->
+                        <ul class="nav nav-tabs nav-fill mb-4" id="settingsTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold" id="general-tab" data-toggle="tab" href="#general" role="tab">
+                                    <i class="fas fa-sliders-h mr-2"></i>{% trans "General Setting" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" id="client-tab" data-toggle="tab" href="#client" role="tab">
+                                    <i class="fas fa-download mr-2"></i>{% trans "Download Client" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" id="jackett-tab" data-toggle="tab" href="#jackett" role="tab">
+                                    <i class="fas fa-search mr-2"></i>Indexers
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">
+                                    <i class="fas fa-microchip mr-2"></i>Advanced
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- Contenu des onglets -->
+                        <div class="tab-content" id="settingsTabContent">
+                            <!-- Onglet Général -->
+                            <div class="tab-pane fade show active" id="general" role="tabpanel">
+                                {% include "_field.html" with field=form.language %}
+                                {% include "_field.html" with field=form.timezone %}
+                            </div>
+
+                            <!-- Onglet Client de téléchargement -->
+                            <div class="tab-pane fade" id="client" role="tabpanel">
+                                {% include "_field.html" with field=form.client_type %}
+                                <div class="row">
+                                    <div class="col-md-8">{% include "_field.html" with field=form.host %}</div>
+                                    <div class="col-md-4">{% include "_field.html" with field=form.port %}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">{% include "_field.html" with field=form.username %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.password %}</div>
+                                </div>
+                            </div>
+
+                            <!-- Onglet Jackett/Prowlarr -->
+                            <div class="tab-pane fade" id="jackett" role="tabpanel">
+                                {% include "_field.html" with field=form.jackett_url %}
+                                {% include "_field.html" with field=form.api_key %}
+                                {% include "_field.html" with field=form.trackers %}
+                            </div>
+
+                            <!-- Onglet Avancé -->
+                            <div class="tab-pane fade" id="advanced" role="tabpanel">
+                                <h5 class="text-primary mt-3 mb-3"><i class="fas fa-random mr-2"></i>{% trans "Flow Control Setting" %}</h5>
+                                <div class="row">
+                                    <div class="col-md-6">{% include "_field.html" with field=form.count_limit %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.interval %}</div>
+                                </div>
+                                
+                                <hr>
+                                <h5 class="text-primary mt-3 mb-3"><i class="fas fa-sync mr-2"></i>{% trans "Cycle run" %}</h5>
+                                <div class="row">
+                                    <div class="col-md-6">{% include "_field.html" with field=form.cycle_run %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.cycle_interval %}</div>
+                                </div>
+
+                                <hr>
+                                <h5 class="text-primary mt-3 mb-3"><i class="fas fa-folder-open mr-2"></i>Path Mapping</h5>
+                                {% include "_field.html" with field=form.map_from %}
+                                {% include "_field.html" with field=form.map_to %}
+                            </div>
+                        </div>
 
                         <div class="form-group mt-5 mb-0">
                             <button type="submit" class="btn btn-primary btn-block btn-lg font-weight-bold shadow-sm">
@@ -43,4 +115,75 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var form = document.querySelector('form');
+            
+            function isValidUrl(string) {
+                try {
+                    new URL(string);
+                    return true;
+                } catch (_) {
+                    return false;  
+                }
+            }
+
+            function validateUrlField(fieldId, tabId) {
+                var field = document.getElementById(fieldId);
+                if (!field) return true;
+                
+                var value = field.value;
+                if (value && !isValidUrl(value)) {
+                    field.classList.add('is-invalid');
+                    
+                    // Ajout du message d'erreur s'il n'existe pas déjà
+                    var errorDiv = field.parentNode.querySelector('.invalid-feedback');
+                    if (!errorDiv) {
+                        errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        field.parentNode.appendChild(errorDiv);
+                    }
+                    errorDiv.textContent = "{% trans 'Please enter a valid URL (e.g. http://domain.com)' %}";
+                    
+                    // Activer l'onglet contenant l'erreur
+                    $('#' + tabId).tab('show');
+                    return false;
+                } else {
+                    field.classList.remove('is-invalid');
+                    return true;
+                }
+            }
+
+            form.addEventListener('submit', function(event) {
+                var valid = true;
+                
+                // Validation de l'URL Jackett
+                if (!validateUrlField('id_jackett_url', 'jackett-tab')) {
+                    valid = false;
+                }
+
+                if (!valid) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }, false);
+            
+            // Nettoyage de l'erreur à la saisie
+            var urlFields = ['id_jackett_url'];
+            urlFields.forEach(function(id) {
+                var field = document.getElementById(id);
+                if (field) {
+                    field.addEventListener('input', function() {
+                        this.classList.remove('is-invalid');
+                    });
+                }
+            });
+        }, false);
+    })();
+</script>
 {% endblock %}
