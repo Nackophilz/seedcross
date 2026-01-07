@@ -9,6 +9,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libc-dev \
+    gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Copie des dépendances et installation
@@ -17,6 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copie du code source
 COPY . .
+
+# Compilation des fichiers de traduction
+RUN python manage.py compilemessages
 
 # Création du dossier db et permission d'exécution pour le script
 RUN mkdir -p db && chmod +x start.sh
