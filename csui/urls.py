@@ -40,6 +40,7 @@ urlpatterns += [
     path('crseed/cancel_tasks', crview.cancelTasks, name='cs_cancel_tasks'),
     path('crseed/fix_path/<int:id>', crview.ajaxFixSeedPath, name='cs_fix_path'),
     path('crseed/delete_history/<int:id>', crview.ajaxDeleteHistory, name='cs_delete_history'),
+    path('test-messages/', crview.settingsView, name='test_messages'), # Placeholder, will rely on injection
 ]
 
 
