@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 {% load i18n %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}{% trans "Settings" %}{% endblock %}
 
@@ -30,21 +31,25 @@
                             </div>
                         {% endif %}
 
-                        <!-- Navigation des onglets -->
                         <ul class="nav nav-tabs nav-fill mb-4" id="settingsTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active font-weight-bold" id="general-tab" data-toggle="tab" href="#general" role="tab">
-                                    <i class="fas fa-sliders-h mr-2"></i>{% trans "General Setting" %}
+                                    <i class="fas fa-sliders-h mr-2"></i>{% trans "General" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link font-weight-bold" id="client-tab" data-toggle="tab" href="#client" role="tab">
-                                    <i class="fas fa-download mr-2"></i>{% trans "Download Client" %}
+                                    <i class="fas fa-download mr-2"></i>{% trans "Client" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link font-weight-bold" id="jackett-tab" data-toggle="tab" href="#jackett" role="tab">
-                                    <i class="fas fa-search mr-2"></i>Indexers
+                                    <i class="fas fa-server mr-2"></i>Indexers
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" id="search-tab" data-toggle="tab" href="#search" role="tab">
+                                    <i class="fas fa-search mr-2"></i>Search
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -54,53 +59,70 @@
                             </li>
                         </ul>
 
-                        <!-- Contenu des onglets -->
                         <div class="tab-content" id="settingsTabContent">
-                            <!-- Onglet Général -->
+                            
                             <div class="tab-pane fade show active" id="general" role="tabpanel">
                                 {% include "_field.html" with field=form.language %}
                                 {% include "_field.html" with field=form.timezone %}
                             </div>
 
-                            <!-- Onglet Client de téléchargement -->
                             <div class="tab-pane fade" id="client" role="tabpanel">
                                 {% include "_field.html" with field=form.client_type %}
                                 <div class="row">
-                                    <div class="col-md-8">{% include "_field.html" with field=form.host %}</div>
-                                    <div class="col-md-4">{% include "_field.html" with field=form.port %}</div>
+                                    <div class="col-md-8">{% include "_field.html" with field=form.client_host %}</div>
+                                    <div class="col-md-4">{% include "_field.html" with field=form.client_port %}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">{% include "_field.html" with field=form.username %}</div>
-                                    <div class="col-md-6">{% include "_field.html" with field=form.password %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.client_username %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.client_password %}</div>
                                 </div>
                             </div>
 
-                            <!-- Onglet Jackett/Prowlarr -->
                             <div class="tab-pane fade" id="jackett" role="tabpanel">
+                                {% include "_field.html" with field=form.jackett_prowlarr %}
                                 {% include "_field.html" with field=form.jackett_url %}
-                                {% include "_field.html" with field=form.api_key %}
-                                {% include "_field.html" with field=form.trackers %}
+                                {% include "_field.html" with field=form.jackett_api_key %}
+                                {% include "_field.html" with field=form.jackett_trackers %}
                             </div>
 
-                            <!-- Onglet Avancé -->
+                            <div class="tab-pane fade" id="search" role="tabpanel">
+                                <h5 class="text-primary mt-3 mb-3"><i class="fas fa-filter mr-2"></i>Options</h5>
+                                {% include "_field.html" with field=form.max_size_difference %}
+                                {% include "_field.html" with field=form.include_cjk %}
+                                {% include "_field.html" with field=form.category_indexers %}
+                                
+                                <hr>
+                                <h5 class="text-primary mt-3 mb-3"><i class="fas fa-tags mr-2"></i>Specific Categories</h5>
+                                <div class="alert alert-info py-2"><small>Define specific indexers for these categories (optional)</small></div>
+                                <div class="row">
+                                    <div class="col-md-6">{% include "_field.html" with field=form.indexer_movie %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.indexer_tv %}</div>
+                                </div>
+                                {% include "_field.html" with field=form.indexer_music %}
+                                {% include "_field.html" with field=form.indexer_ebook %}
+                                {% include "_field.html" with field=form.indexer_audio %}
+                                {% include "_field.html" with field=form.indexer_other %}
+                            </div>
+
                             <div class="tab-pane fade" id="advanced" role="tabpanel">
                                 <h5 class="text-primary mt-3 mb-3"><i class="fas fa-random mr-2"></i>{% trans "Flow Control Setting" %}</h5>
                                 <div class="row">
-                                    <div class="col-md-6">{% include "_field.html" with field=form.count_limit %}</div>
-                                    <div class="col-md-6">{% include "_field.html" with field=form.interval %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.fc_count %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.fc_interval %}</div>
                                 </div>
                                 
                                 <hr>
                                 <h5 class="text-primary mt-3 mb-3"><i class="fas fa-sync mr-2"></i>{% trans "Cycle run" %}</h5>
                                 <div class="row">
-                                    <div class="col-md-6">{% include "_field.html" with field=form.cycle_run %}</div>
-                                    <div class="col-md-6">{% include "_field.html" with field=form.cycle_interval %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.cyclic_reload %}</div>
+                                    <div class="col-md-6">{% include "_field.html" with field=form.reload_interval_min %}</div>
                                 </div>
 
                                 <hr>
                                 <h5 class="text-primary mt-3 mb-3"><i class="fas fa-folder-open mr-2"></i>Path Mapping</h5>
-                                {% include "_field.html" with field=form.map_from %}
-                                {% include "_field.html" with field=form.map_to %}
+                                <div class="alert alert-warning py-2"><small>Required if your download client is on a different machine or uses different paths (e.g. Docker).</small></div>
+                                {% include "_field.html" with field=form.map_from_path %}
+                                {% include "_field.html" with field=form.map_to_path %}
                             </div>
                         </div>
 
@@ -163,6 +185,7 @@
                 var valid = true;
                 
                 // Validation de l'URL Jackett
+                // Note: l'ID généré par Django est généralement id_nomduchamp
                 if (!validateUrlField('id_jackett_url', 'jackett-tab')) {
                     valid = false;
                 }
