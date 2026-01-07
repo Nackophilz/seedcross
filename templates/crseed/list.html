@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load i18n %}
 {% block stylesheet %}
 <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.css' %}">
@@ -9,11 +10,11 @@
 <div>
     <div class="row mx-3">
         <div class="ml-3 mt-4 mr-auto">
-            <a href="{% url 'cs_start' %}" class="btn  btn-primary ">Start Cross Seed</a>
+            <a href="{% url 'cs_start' %}" class="btn  btn-primary ">{% trans "Start Cross Seed" %}</a>
         </div>
         <div class="mr-3 my-3">
             <!-- <button type="button" id="clearRecBtn" class="btn btn-danger">Clear Records</button> -->
-            <a href="{% url 'cs_clearcrossed' %}"  id="clearRecBtn" class="btn  btn-warning ">Clear records</a>
+            <a href="{% url 'cs_clearcrossed' %}"  id="clearRecBtn" class="btn  btn-warning ">{% trans "Clear records" %}</a>
         </div>
     </div>
 

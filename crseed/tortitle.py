@@ -11,7 +11,8 @@ def containsCJK(str):
 
 
 def containdCJKKeyword(str):
-    return re.search(r'^(.迪士尼\b)', str)
+    # return re.search(r'^(.迪士尼\b)', str)
+    return False
 
 
 def notTitle(str):
@@ -175,19 +176,19 @@ def parseSeason(sstr):
         return seasonstr, seasonspan, episodestr
 
 
-    mcns = re.search(r'(第?\s*((\d+)|([一二三四五六七八九十]))(-\d+)?季)(\s*第\s*((\d+)|([一二三四五六七八九十]))集)?', sstr, flags=re.I)
-    if mcns:
-        # origin_seasonstr = mcns.group(1)
-        seasonspan = mcns.span(1)
-        ssi = mcns.group(2)
-        iss = '一二三四五六七八九'.find(ssi)
-        if iss >= 0:
-            ssi = str(iss+1).zfill(2)
-        seasonstr = 'S' + ssi
-        if mcns.group(6):
-            episodestr = 'E' + mcns.group(7)
+    # mcns = re.search(r'(第?\s*((\d+)|([一二三四五六七八九十]))(-\d+)?季)(\s*第\s*((\d+)|([一二三四五六七八九十]))集)?', sstr, flags=re.I)
+    # if mcns:
+    #     # origin_seasonstr = mcns.group(1)
+    #     seasonspan = mcns.span(1)
+    #     ssi = mcns.group(2)
+    #     iss = '一二三四五六七八九'.find(ssi)
+    #     if iss >= 0:
+    #         ssi = str(iss+1).zfill(2)
+    #     seasonstr = 'S' + ssi
+    #     if mcns.group(6):
+    #         episodestr = 'E' + mcns.group(7)
 
-        return seasonstr, seasonspan, episodestr
+    #     return seasonstr, seasonspan, episodestr
 
 
     return seasonstr, seasonspan, episodestr
@@ -228,7 +229,7 @@ def parse0DayMovieName(torName):
         flags=re.I)
     sstr = re.sub(r'\[Vol.*\]$', '', sstr, flags=re.I)
 
-    sstr = re.sub(r'\W?(IMAX|Extended Cut|\d+CD|APE整轨)\b.*$', '', sstr, flags=re.I)
+    sstr = re.sub(r'\W?(IMAX|Extended Cut|\d+CD|APE)\b.*$', '', sstr, flags=re.I)
     sstr = re.sub(r'[\[\(](BD\d+|WAV\d*|(CD\-)?FLAC|Live|DSD\s?\d*)\b.*$', '', sstr, flags=re.I)
     sstr = re.sub(r'^\W?(BDMV|\BDRemux|\bCCTV\d(HD)?|BD\-?\d*|[A-Z]{1,5}TV)\W*', '', sstr, flags=re.I)
 
@@ -273,9 +274,9 @@ def parse0DayMovieName(torName):
     if sstr:
         failsafeTitle = sstr
 
-    sstr = re.sub(r'(\b剧集|\b全\d+集|\b\d+集全|\b\w+(影|场|念|港)版|\b国语|\bDis[kc]\s*\d*|\bBD\d*).*$', '', sstr, flags=re.I)
+    # sstr = re.sub(r'(\b剧集|\b全\d+集|\b\d+集全|\b\w+(影|场|念|港)版|\b国语|\bDis[kc]\s*\d*|\bBD\d*).*$', '', sstr, flags=re.I)
 
-    if sstr and sstr[-1] in ['(', '[', '{', '（', '【']:
+    if sstr and sstr[-1] in ['(', '[', '{']:
         sstr = sstr[:-1]
 
     # if titlestr.endswith(')'):

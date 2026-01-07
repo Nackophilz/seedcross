@@ -107,6 +107,8 @@ class ProcessParam(models.Model):
     map_dir = models.BooleanField(default=False)
     map_from_path = models.CharField(max_length=128, default='', null=True)
     map_to_path = models.CharField(max_length=128, default='', null=True)
+    language = models.CharField(max_length=10, default='en-us')
+    timezone = models.CharField(max_length=50, default='Europe/London')
 
     class Meta:
         db_table = 'crseed_process_param'

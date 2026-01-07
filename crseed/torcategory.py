@@ -23,16 +23,16 @@ class CategoryItem:
 
 class GuessCategoryUtils:
     # def __init__(self):
-    # 有些组生产 TV Series，但是在种子名上不显示 S01 这些
+    # Some groups produce TV Series but don't display S01 in the torrent name
     TV_GROUPS = ['CMCTV', 'FLTTH']
     WEB_GROUPS = ['CHDWEB', 'PTerWEB', 'HaresWEB', 'DBTV', 'QHStudio', 
                  'LeagueWEB', 'HDCTV', '52KHD', 'PTHweb', 'OURTV', 'iLoveTV']
 
-    # 有些组专门生产 MV
+    # Some groups specifically produce MV
     MV_GROUPS = ['PTerMV', 'FHDMv', 'Melon', 'HaresMV', 'Bugs!']
-    # 有些组专门生产 Audio
+    # Some groups specifically produce Audio
     AUDIO_GROUPS = ['PTHAudio', 'HDSAB']
-    # 有些组专门作压制，但是不在种子名上标记
+    # Some groups specifically do encoding but don't mark it in the torrent name
     MOVIE_ENCODE_GROUPS = ['CMCT', 'FRDS']
 
     CATEGORIES = {
@@ -41,15 +41,15 @@ class GuessCategoryUtils:
         'Audio': ['Audio', '32;1', 0, 'Audio'],
         'Music': ['Music', '31', 0, 'Music'],
         'eBook': ['eBook', '34', 0, 'eBook'],
-        # 压制 1080p and lower, 适合emby
+        # Encode 1080p and lower, suitable for emby
         'MovieEncode': ['MovieEncode', '36', 0, 'MovieEncode'],
-        # Remux 1080p and lower, 适合emby
+        # Remux 1080p and lower, suitable for emby
         'MovieRemux': ['MovieRemux', '36', 0, 'MovieRemux'],
-        'Movie4K': ['Movie4K', '36', 0, 'Movie4K'],  # 压制和Remux 4K，适合emby
-        'MovieWebdl': ['MovieWebdl', '36', 0, 'MovieWebdl'],  # Web DL，适合emby
-        'MovieWeb4K': ['MovieWeb4K', '36', 0, 'MovieWeb4K'],  # Web DL，适合emby
-        # 原盘, 适合播放机 & kodi
-        'MovieBDMV': ['MovieBDMV', '35', 0, 'MovieBDMV'],  # 原盘, 适合播放机 & kodi
+        'Movie4K': ['Movie4K', '36', 0, 'Movie4K'],  # Encode and Remux 4K, suitable for emby
+        'MovieWebdl': ['MovieWebdl', '36', 0, 'MovieWebdl'],  # Web DL, suitable for emby
+        'MovieWeb4K': ['MovieWeb4K', '36', 0, 'MovieWeb4K'],  # Web DL, suitable for emby
+        # Original disk, suitable for player & kodi
+        'MovieBDMV': ['MovieBDMV', '35', 0, 'MovieBDMV'],  # Original disk, suitable for player & kodi
         'MovieBDMV4K': ['MovieBDMV4K', '35', 0, 'MovieBDMV4K'],
         'MovieDVD': ['MovieDVD', '35', 0, 'MovieDVD'],
         'Movie': ['Movie', '35', 0, 'Movie'],
@@ -89,17 +89,13 @@ class GuessCategoryUtils:
         return True
 
     def categoryByKeyword(self, torName):
-        if re.search(r'(上下册|全.{1,4}册|精装版|修订版|第\d版|共\d本|文集|新修版|PDF版|课本|课件|出版社)',
-                     torName):
+        if re.search(r'(PDF|epub|mobi|txt|azw3)', torName, re.I):
             self.setCategory('eBook')
-        elif re.search(r'(\d+册|\d+期|\d+版|\d+本|\d+年|\d+月|系列|全集|作品集).?$',
-                       torName):
-            self.setCategory('eBook')
-        elif re.search(r'(\bConcert|演唱会|音乐会|\bLive[. ](At|in))\b', torName, re.A | re.I):
+        elif re.search(r'(\bConcert|\bLive[. ](At|in))\b', torName, re.A | re.I):
             self.setCategory('MV')
         elif re.search(r'\bBugs!.?\.mp4', torName, re.I):
             self.setCategory('MV')
-        elif re.search(r'(\bVarious Artists|\bMQA\b|整轨|\b分轨|\b无损|\bLPCD|\bSACD|\bMP3|XRCD\d{1,3})',
+        elif re.search(r'(\bVarious Artists|\bMQA\b|\bLPCD|\bSACD|\bMP3|XRCD\d{1,3})',
                        torName, re.A | re.I):
             self.setCategory('Music')
         elif re.search(r'(\b\d+ ?CD|(\[|\()\s*(16|24)\b|\-(44\.1|88.2|48|192)|24Bit|44\s*\]|FLAC.*(16|24|48|CUE|WEB|Album)|WAV.*CUE|CD.*FLAC|(\[|\()\s*FLAC)', torName, re.A | re.I):
@@ -107,11 +103,11 @@ class GuessCategoryUtils:
             self.setCategory('Music')
         elif re.search(r'^(Beethoven|Schubert)\s*[\-_]', torName, re.I):
             self.setCategory('Music')
-        elif re.search(r'(乐团|交响曲|协奏曲|奏鸣曲|[二三四]重奏|专辑\b)', torName):
+        elif re.search(r'(Symphony|Concerto|Sonata|Quartet|Trio|Album\b)', torName, re.I):
             self.setCategory('Music')
         elif re.search(r'(\[BDMV\])', torName, re.I):
             self.setCategory('MovieBDMV')
-        elif re.search(r'(\bThe.Movie.\d{4}|电影版)\b', torName, flags=re.A | re.I):
+        elif re.search(r'(\bThe.Movie.\d{4})\b', torName, flags=re.A | re.I):
             if self.quality == 'WEBDL':
                 self.setCategory('MovieWebdl')
             else:
@@ -123,15 +119,13 @@ class GuessCategoryUtils:
     def categoryTvByName(self, torName):
         if re.search(r'(\b(S\d+)(E\d+)?|(Ep?\d+-Ep?\d+))\b', torName, flags=re.A | re.I):
             self.setCategory('TV')
-        elif re.search(r'(第\s*(\d+)(-\d+)?季)\b', torName, flags=re.I):
-            self.setCategory('TV')
         elif re.search(r'(\bS\d+(-S\d+))\b', torName, flags=re.A | re.I):
             self.setCategory('TV')
-        elif re.search(r'\W[ES]\d+\W|EP\d+\W|\d+季|第\w{1,3}季\W', torName, re.A | re.I):
+        elif re.search(r'\W[ES]\d+\W|EP\d+\W', torName, re.A | re.I):
             self.setCategory('TV')
         elif re.search(r'\bHDTV\b', torName):
             self.setCategory('HDTV')
-        elif re.search(r'Complete.+Web-?dl|Full.Season|全\d+集|\d+集全', torName, re.A | re.I):
+        elif re.search(r'Complete.+Web-?dl|Full.Season', torName, re.A | re.I):
             self.setCategory('TV')
         else:
             return False
@@ -195,9 +189,9 @@ class GuessCategoryUtils:
             return ''
 
     def categoryByQuality(self, torName):
-        # 来源为原盘的
+        # Source is Original Disk
         if self.quality == 'BLURAY':
-            # Remux, 压制 还是 原盘
+            # Remux, Encode or Original Disk
             if re.search(r'\WREMUX\W', torName, re.I):
                 # if self.resolution == '2160p':
                 #     self.setCategory('Movie4K')
@@ -215,7 +209,7 @@ class GuessCategoryUtils:
                     self.setCategory('MovieBDMV4K')
                 else:
                     self.setCategory('MovieBDMV')
-        # 来源是 WEB-DL
+        # Source is WEB-DL
         elif self.quality == 'WEBDL': 
             # if self.resolution == '2160p':
             #     self.setCategory('MovieWeb4K')
@@ -251,14 +245,14 @@ class GuessCategoryUtils:
         if self.categoryByGuessGroup(torName, self.group):
             return self.category, self.group
 
-        # 非web组出的
+        # Not produced by web groups
         if self.categoryByQuality(torName):
             return self.category, self.group
         else:
             if self.resolution or self.quality:
                 self.setCategory('Movie')
             else:
-                # Other的条件： TV/MV/Audio都匹配不上，quality没标记，各种压制组也对不上
+                # Other condition: TV/MV/Audio don't match, quality not marked, encode groups don't match
                 self.setCategory('Other')
             return self.category, self.group
 

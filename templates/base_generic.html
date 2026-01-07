@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 
@@ -30,30 +31,30 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item ">
-            <a class="nav-link" href="{% url 'cs_setting' %}">Settings</a>
+            <a class="nav-link" href="{% url 'cs_setting' %}">{% trans "Settings" %}</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link " href="{% url 'cs_list' %}">Start Cross</a>
+            <a class="nav-link " href="{% url 'cs_list' %}">{% trans "Start Cross" %}</a>
           </li>
         </ul>
         <ul class="navbar-nav mr-sm-2">
           <li class="nav-item ">
-            <a class="nav-link " href="{% url 'cs_history' %}">Search History</a> 
+            <a class="nav-link " href="{% url 'cs_history' %}">{% trans "Search History" %}</a> 
           </li>
           <li class="nav-item dropdown ">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" >
               {{ user.username }}<span class="caret"></span>
             </a>
             <ul class="dropdown-menu " >
-              <li><a class="dropdown-item" href="{% url 'password_change' %}">Modify Password</a></li>
+              <li><a class="dropdown-item" href="{% url 'password_change' %}">{% trans "Modify Password" %}</a></li>
               <li class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
             </ul>
           </li>
         </ul>
         {% else %}
         <ul class="navbar-nav mr-sm-2">
-          <li class="nav-item active"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+          <li class="nav-item active"><a href="{% url 'login' %}" class="nav-link">{% trans "Login" %}</a></li>
         </ul>
         {% endif %}
       </div>

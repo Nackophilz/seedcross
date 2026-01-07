@@ -8,8 +8,13 @@ from .models import ProcessParam, TorClientSetting, CrossTorrent, SearchedHistor
 from ajax_datatable.views import AjaxDatatableView
 from django.core import serializers
 from django.contrib import messages
+from django.utils import translation
+from django.utils.translation import gettext as _
+from django.conf import settings
 import os
 import glob
+import pytz
+from django.utils import timezone
 
 
 def getConfig():
@@ -57,6 +62,8 @@ def settingsView(request):
             # TODO: shoud this be configurable
             # config.max_size_difference = 10
             config.max_size_difference = form.cleaned_data['max_size_difference']
+            config.language = form.cleaned_data['language']
+            config.timezone = form.cleaned_data['timezone']
 
             client.clienttype = form.cleaned_data['client_type']
             client.host = form.cleaned_data['client_host']
@@ -65,10 +72,18 @@ def settingsView(request):
             client.password = form.cleaned_data['client_password']
             config.save()
             client.save()
+
+            translation.activate(config.language)
+            request.session['_language'] = config.language
+            timezone.activate(pytz.timezone(config.timezone))
+            request.session['django_timezone'] = config.timezone
+
             startCrossSeedRoutine()
-            return redirect('cs_list')
+            response = redirect('cs_list')
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, config.language)
+            return response
         else:
-            messages.error(request, "Check error messages")
+            messages.error(request, _("Check error messages"))
             return render(request, 'crseed/settings.html', {'form': form})
             # form = ParamSettingForm()
 
@@ -98,6 +113,8 @@ def settingsView(request):
             "map_to_path": config.map_to_path,
             # TODO: shoud this be configurable
             "max_size_difference": config.max_size_difference,
+            "language": config.language,
+            "timezone": config.timezone,
         })
     return render(request, 'crseed/settings.html', {
         'form': form,

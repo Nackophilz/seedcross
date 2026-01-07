@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load i18n %}
 {% block stylesheet %}
 <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.css' %}">
@@ -9,9 +10,9 @@
 
 <div class="row mx-3">
     <span class="ml-3 mt-4 mr-auto">
-        <h4>Search History</h4>
+        <h4>{% trans "Search History" %}</h4>
     </span>
-    <a href="{% url 'cs_clear_history' %}" class="btn  btn-warning mr-3 my-3 ">Clear Searched History</a>
+    <a href="{% url 'cs_clear_history' %}" class="btn  btn-warning mr-3 my-3 ">{% trans "Clear Searched History" %}</a>
 </div>
 
 <div class="row mx-3">

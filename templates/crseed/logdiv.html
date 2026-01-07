@@ -1,21 +1,22 @@
+{% load i18n %}
 {% if log_data.live %}
 <div class="p-4">
     <div class="row text-center mb-4">
         <div class="col-md-3 mb-3 mb-md-0">
-            <div class="text-muted small text-uppercase font-weight-bold">Total / Searched</div>
+            <div class="text-muted small text-uppercase font-weight-bold">{% trans "Total / Searched" %}</div>
             <h4 class="text-primary mb-0" id="clientCount">- / -</h4>
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
-            <div class="text-muted small text-uppercase font-weight-bold">Flow Limit / Session</div>
+            <div class="text-muted small text-uppercase font-weight-bold">{% trans "Flow Limit / Session" %}</div>
             <h4 class="text-primary mb-0" id="sessionCount">- / -</h4>
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
-            <div class="text-muted small text-uppercase font-weight-bold">Downloaded</div>
+            <div class="text-muted small text-uppercase font-weight-bold">{% trans "Downloaded" %}</div>
             <h4 class="text-success mb-0" id="downloadCount">-</h4>
         </div>
         <div class="col-md-3 d-flex align-items-center justify-content-center">
             <button type="button" id="abortBtn" class="btn btn-outline-danger btn-block">
-                Cancel Task
+                {% trans "Cancel Task" %}
             </button>
         </div>
     </div>
@@ -27,7 +28,7 @@
     <div class="form-group mb-0">
         <textarea class="form-control bg-light border-0 text-monospace" 
                   style="font-size: 0.85rem; height: 180px; resize: none;" 
-                  placeholder="Waiting for task logs..." 
+                  placeholder="{% trans "Waiting for task logs..." %}" 
                   id="logMessage" readonly></textarea>
     </div>
 </div>

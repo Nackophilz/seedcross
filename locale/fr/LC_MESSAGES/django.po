@@ -1,0 +1,230 @@
+# French translations for SeedCross.
+# Copyright (C) 2024 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Jules <jules@example.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 16:00+0000\n"
+"PO-Revision-Date: 2024-05-23 16:00+0000\n"
+"Last-Translator: Jules <jules@example.com>\n"
+"Language-Team: French <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: crseed/forms.py:12
+msgid "Type"
+msgstr "Type"
+
+#: crseed/forms.py:13
+msgid "Host"
+msgstr "Hôte"
+
+#: crseed/forms.py:14
+msgid "Port"
+msgstr "Port"
+
+#: crseed/forms.py:15
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: crseed/forms.py:17
+msgid "Password"
+msgstr "Mot de passe"
+
+#: crseed/forms.py:18
+msgid "Search CJK title"
+msgstr "Rechercher les titres CJK"
+
+#: crseed/forms.py:19
+msgid "Category indexers"
+msgstr "Indexeurs de catégories"
+
+#: crseed/forms.py:20 crseed/forms.py:21
+msgid "Movie/TV indexers"
+msgstr "Indexeurs Films/TV"
+
+#: crseed/forms.py:22
+msgid "Music indexers"
+msgstr "Indexeurs Musique"
+
+#: crseed/forms.py:23
+msgid "eBook indexers"
+msgstr "Indexeurs eBook"
+
+#: crseed/forms.py:24
+msgid "Audio indexers"
+msgstr "Indexeurs Audio"
+
+#: crseed/forms.py:25
+msgid "Other(Unknown) indexers"
+msgstr "Autres indexeurs (inconnus)"
+
+#: crseed/forms.py:26 crseed/forms.py:78
+msgid "Jackett or Prowlarr"
+msgstr "Jackett ou Prowlarr"
+
+#: crseed/forms.py:27
+msgid "Jackett/Prowlarr Url"
+msgstr "URL Jackett/Prowlarr"
+
+#: crseed/forms.py:28
+msgid "Jackett/Prowlarr Api key"
+msgstr "Clé API Jackett/Prowlarr"
+
+#: crseed/forms.py:29
+msgid "Tracker / Indexer"
+msgstr "Tracker / Indexeur"
+
+#: crseed/forms.py:30
+msgid "Flow control: Count limit"
+msgstr "Contrôle de flux : Limite de nombre"
+
+#: crseed/forms.py:31
+msgid "Flow control: Interval"
+msgstr "Contrôle de flux : Intervalle"
+
+#: crseed/forms.py:32
+msgid "Cycle run"
+msgstr "Exécution cyclique"
+
+#: crseed/forms.py:33
+msgid "Cycle run interval (minutes)"
+msgstr "Intervalle d'exécution cyclique (minutes)"
+
+#: crseed/forms.py:34
+msgid "Max size difference (bytes) when compare torrents."
+msgstr "Différence de taille maximale (octets) lors de la comparaison des torrents."
+
+#: crseed/forms.py:35
+msgid "Map From: Download client(QB/Tr/De) path"
+msgstr "Mapper depuis : Chemin du client de téléchargement (QB/Tr/De)"
+
+#: crseed/forms.py:36
+msgid "Map to: seedcross path"
+msgstr "Mapper vers : Chemin SeedCross"
+
+#: crseed/forms.py:37
+msgid "Language"
+msgstr "Langue"
+
+#: crseed/forms.py:38
+msgid "Timezone"
+msgstr "Fuseau horaire"
+
+#: crseed/forms.py:46
+msgid "General Setting"
+msgstr "Paramètres généraux"
+
+#: crseed/forms.py:51
+msgid "Download Client Setting"
+msgstr "Paramètres du client de téléchargement"
+
+#: crseed/forms.py:76
+msgid "Jackett/Prowlarr Setting"
+msgstr "Paramètres Jackett/Prowlarr"
+
+#: crseed/forms.py:80
+msgid "ex. http://jackett/prowlarr.server.ip:9117/"
+msgstr "ex. http://ip.du.serveur.jackett/prowlarr:9117/"
+
+#: crseed/forms.py:82
+msgid "copy from jackett/prowlarr web ui"
+msgstr "copier depuis l'interface web de jackett/prowlarr"
+
+#: crseed/forms.py:84
+msgid "leave blank to search all configured indexers"
+msgstr "laisser vide pour rechercher tous les indexeurs configurés"
+
+#: crseed/forms.py:86
+msgid "Search options"
+msgstr "Options de recherche"
+
+#: crseed/forms.py:89
+msgid "max size difference (in bytes)"
+msgstr "différence de taille maximale (en octets)"
+
+#: crseed/forms.py:102
+msgid "Flow Control Setting"
+msgstr "Paramètres de contrôle de flux"
+
+#: crseed/forms.py:110
+msgid "Cycle run options"
+msgstr "Options d'exécution cyclique"
+
+#: crseed/forms.py:115
+msgid "Fix options"
+msgstr "Options de réparation"
+
+#: crseed/forms.py:115
+msgid "(required: your download client is running on the same machine as seedcross)"
+msgstr "(requis : votre client de téléchargement s'exécute sur la même machine que seedcross)"
+
+#: crseed/forms.py:124
+msgid "Save Settings"
+msgstr "Enregistrer les paramètres"
+
+#: crseed/views.py:83
+msgid "Check error messages"
+msgstr "Vérifiez les messages d'erreur"
+
+#: templates/base_generic.html:34 templates/crseed/settings.html:8
+msgid "Settings"
+msgstr "Paramètres"
+
+#: templates/base_generic.html:37
+msgid "Start Cross"
+msgstr "Démarrer Cross"
+
+#: templates/base_generic.html:42 templates/crseed/history.html:13
+msgid "Search History"
+msgstr "Historique de recherche"
+
+#: templates/base_generic.html:49
+msgid "Modify Password"
+msgstr "Modifier le mot de passe"
+
+#: templates/base_generic.html:51
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: templates/base_generic.html:57
+msgid "Login"
+msgstr "Connexion"
+
+#: templates/crseed/history.html:15
+msgid "Clear Searched History"
+msgstr "Effacer l'historique de recherche"
+
+#: templates/crseed/list.html:13
+msgid "Start Cross Seed"
+msgstr "Démarrer Cross Seed"
+
+#: templates/crseed/list.html:17
+msgid "Clear records"
+msgstr "Effacer les enregistrements"
+
+#: templates/crseed/logdiv.html:6
+msgid "Total / Searched"
+msgstr "Total / Recherché"
+
+#: templates/crseed/logdiv.html:10
+msgid "Flow Limit / Session"
+msgstr "Limite de flux / Session"
+
+#: templates/crseed/logdiv.html:14
+msgid "Downloaded"
+msgstr "Téléchargé"
+
+#: templates/crseed/logdiv.html:19
+msgid "Cancel Task"
+msgstr "Annuler la tâche"
+
+#: templates/crseed/logdiv.html:31
+msgid "Waiting for task logs..."
+msgstr "En attente des journaux de tâches..."
